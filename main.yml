@@ -1,0 +1,4 @@
+zoo_tar_path: "/data/download_tar"
+zoo_tar_filename: "apache-zookeeper-3.7.2-bin.tar.gz"
+work_dir: "/data/sy0218"
+play_book_dir: "/data/work/zookeeper_3.7.2_auto_ansible"
