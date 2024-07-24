@@ -8,7 +8,7 @@
 
 - **셋업 참조 파일**: `system_download.txt(/data/work 하위에 위치 필수!!!!)`
 - **주키퍼 초기 설정 파일 샘플**: `zoo.cfg`
-- **전체 파이프라인 플레이**: `zookeeper_deploy.yml`
+- **전체 파이프라인 플레이북**: `zookeeper_deploy.yml`
 
 ## 각 파일 설명
 
