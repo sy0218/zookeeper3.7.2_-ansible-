@@ -38,5 +38,5 @@ zookeeper_conf_dir=$(find ${zoo_dir} -name conf -type d)
 for ((j=0; j<len_array; j++));
 do
         scp_current_ip=${zoo_array[$j]}
-	scp ${file_name} root@${scp_current_ip}:${zookeeper_conf_dir}/qweqwe.cfg
+	scp ${file_name} root@${scp_current_ip}:${zookeeper_conf_dir}/
 done
