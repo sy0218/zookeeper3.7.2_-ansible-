@@ -23,7 +23,7 @@
 
 1. `zookeeper_deploy.yml` 플레이북을 실행하여 전체 파이프라인을 시작합니다.
    ```sh
-   ansible-playbook -i /data/work/zookeeper_3.7.2_auto_ansible/hosts.ini /data/work/zookeeper_3.7.2_auto_ansible/zookeeper_deploy.yml
+   ansible-playbook -i /data/zookeeper_3.7.2_ansible/hosts.ini /data/zookeeper_3.7.2_ansible/zookeeper_deploy.yml
    ```
 
 ## ansible 플레이북 구조
