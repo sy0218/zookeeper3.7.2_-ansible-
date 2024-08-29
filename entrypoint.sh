@@ -5,18 +5,20 @@ system_file="/data/work/system_download.txt"
 zoo_array=($(cat ${system_file} | grep zookeeper_ip | awk -F '|' '{for(i=2; i<=NF; i++) print $i}'))
 len_array=${#zoo_array[@]}
 
-conf_dir=$1
-work_dir=$2
+work_dir=$1
 
-file_name=$(find ${conf_dir} -type f -name *zoo.cfg*)
+file_name=$(find ${work_dir}/*zookeeper-?.?.?*/conf -type f -name "zoo_sample.cfg")
+dir_name=$(dirname ${file_name})
+cp ${file_name} "${dir_name}/zoo.cfg"
+
 zoo_dir=$(find ${work_dir} -type d -name "*apache-zookeeper-?.?.?*")
 
 # 주키퍼 각 서버 id 값 생성
-sed -i '/server.*:2888:3888/d' ${file_name}
+sed -i '/server.*:2888:3888/d' "${dir_name}/zoo.cfg"
 for ((i=0; i<len_array; i++));
 do
         current_ip=${zoo_array[$i]}
-        echo "server.$((i+1))=${current_ip}:2888:3888" >> ${file_name}
+        echo "server.$((i+1))=${current_ip}:2888:3888" >> "${dir_name}/zoo.cfg"
 	ssh ${current_ip} "ln -s ${zoo_dir} ${work_dir}/zookeeper"
 	ssh ${current_ip} "mkdir -p ${zoo_dir}/data"
         ssh ${current_ip} "echo $((i+1)) > ${zoo_dir}/data/myid"
@@ -29,7 +31,7 @@ while IFS= read -r zoo_config_low;
 do
         zoo_env_name=$(echo $zoo_config_low | awk -F '|' '{print $1}' | sed 's/[][]//g')
         zoo_env_value=$(echo $zoo_config_low | awk -F '|' '{print $2}')
-        sed -i "s|^${zoo_env_name}.*$|${zoo_env_name}${zoo_env_value}|" ${file_name}
+        sed -i "s|^${zoo_env_name}.*$|${zoo_env_name}${zoo_env_value}|" "${dir_name}/zoo.cfg"
 done <<< $zoo_config
 
 
@@ -38,5 +40,5 @@ zookeeper_conf_dir=$(find ${zoo_dir} -name conf -type d)
 for ((j=0; j<len_array; j++));
 do
         scp_current_ip=${zoo_array[$j]}
-	scp ${file_name} root@${scp_current_ip}:${zookeeper_conf_dir}/
+	scp "${dir_name}/zoo.cfg" root@${scp_current_ip}:${zookeeper_conf_dir}/
 done
