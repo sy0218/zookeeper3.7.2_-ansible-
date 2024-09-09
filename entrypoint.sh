@@ -19,7 +19,6 @@ for ((i=0; i<len_array; i++));
 do
         current_ip=${zoo_array[$i]}
         echo "server.$((i+1))=${current_ip}:2888:3888" >> "${dir_name}/zoo.cfg"
-	ssh ${current_ip} "ln -s ${zoo_dir} ${work_dir}/zookeeper"
 	ssh ${current_ip} "mkdir -p ${zoo_dir}/data"
         ssh ${current_ip} "echo $((i+1)) > ${zoo_dir}/data/myid"
 done

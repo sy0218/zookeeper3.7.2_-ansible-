@@ -39,6 +39,18 @@
         remote_src: yes
 
 
+- name: sb_link
+  hosts: servers
+  become: yes
+  vars_files:
+    - /data/work/zookeeper_3.7.2_ansible/main.yml
+  tasks:
+    - name: Spark link gogo
+      shell: "ln -s {{ work_dir }}/*zookeeper-?.?.?-* {{ work_dir }}/zookeeper"
+      args:
+        creates: "{{ work_dir }}/zookeeper"
+
+
 - name: entrypoint_sh start
   hosts: localhost
   become: yes
